@@ -14,4 +14,4 @@ Vamos lá...
         ifconfig
     serão listados todos os seus adaptadores de rede:
 
-    ![Lista de adaptadores](Adaptadores.png)
+    ![Lista de adaptadores](Adaptadores1.png)
