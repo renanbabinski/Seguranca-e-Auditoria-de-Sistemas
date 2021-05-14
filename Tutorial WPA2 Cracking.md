@@ -9,5 +9,9 @@ Vamos lá...
 
 1. Você irá precisar um adaptador Wi-fi. Os notebooks já possuem conexão Wireless integrada, se você tiver um desktop precisará de um adaptador USB ou PCI.  
 
-2. Abra um terminal, então digite **ifconfig**, serão listados todos os seus adaptadores de rede:
+2. Abra um terminal, então digite:
 
+        ifconfig
+    serão listados todos os seus adaptadores de rede:
+
+    ![Lista de adaptadores](Adaptadores.png)
