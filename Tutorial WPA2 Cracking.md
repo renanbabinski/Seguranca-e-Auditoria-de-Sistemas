@@ -60,4 +60,45 @@ Vamos lá...
 
         airodump-ng -w handshake -c 3 -bssid C0:25:E9:77:AB:00 wlan0
 
+    - **-w handshake** - indica o nome do arquivo gerado que conterá o handshake  
+
+    - **-c 3** - indica o canal de frequência do alvo, no nosso caso é canal 3
+
+    - **-bssid C0:25:E9:77:AB:00** - indica o MAC do nosso alvo, no nosso caso é: C0:25:E9:77:AB:00  
+
+    Todos esses dados foram obtidos no passo anterior.  
+    Tela de monitoramento:
+
+    ![Handshake](Handshake.png)
+
+    Como podemos ver na parte inferior da imagem, temos apenas 1 cliente conectado. Para esse ataque precisamos 1 ou mais clientes conectados. Você poderá encontrar vários. Quanto mais clientes estiverem conectados, maior a chance de alguém se desconectar e você capturar um “handshake”.
+    Esse script deve ficar rodando até que um “handshake” seja capturado. Quando isso acontecer uma mensagem será exibida no cabeçalho da tela (verifique a imagem do passo posterior). 
+    Porém, um “handshake” pode demorar horas para acontecer. Você não quer ficar esperando horas ou dias para conseguir o aperto de mão. Por isso vamos utilizar mais uma ferramenta do nosso arsenal.  
+
+6. Podemos forçar o cliente conectado a se desconectar utilizando a ferramenta:
+
+        aireplay-ng
+
+    Como mencionado no passo anterior, você deve deixar o script de captura do handshake rodando, para isso vamos abrir outro terminal ao lado do mesmo.
+    O comando para forçar os clientes do seu alvo a se desconectar é o seguinte:
+
+        aireplay-ng --deauth 5 -a E0:25:E9:77:AB:00 wlan0
+
+    Onde:  
+
+    - **--deauth 5** - significa mandar 5 pacotes de desconexão.
+
+    - **-a E0:25:E9:77:AB:00** - significa o alvo(roteador) que vamos atacar.
+
+    - **wlan0** - nossa interface wireless que será responsável pelo ataque.
+
+    **OBS:** Dessa forma os pacotes são enviados em broadcast para todos os dispositivos. É possível enviar a um dispositivo especifico adicionando o argumento **-c MAC ALVO**.  
+
+    Os pacotes serão encaminhados 1 por vez como mostra a tela abaixo:
+
     
+
+    Quando o Handshake for capturado, será exibida uma mensagem na tela de monitoramento: "WPA handshake: MAC DISPOSITIVO". Segue imagem:
+
+    ![Handshake Capturado](Got_it.png)
+
