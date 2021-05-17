@@ -96,9 +96,99 @@ Vamos lá...
 
     Os pacotes serão encaminhados 1 por vez como mostra a tela abaixo:
 
-    
+    ![Pacotes Desautenticação](Deauth.png)
 
     Quando o Handshake for capturado, será exibida uma mensagem na tela de monitoramento: "WPA handshake: MAC DISPOSITIVO". Segue imagem:
 
     ![Handshake Capturado](Got_it.png)
 
+    Será gerado um arquivo com extensão **.cap** que conterá o Handshake. Este arquivo será usado para quebrar a chave.  
+
+    ![Arquivo](File.png)  
+
+7. Quebrando a chave com força bruta:
+
+    Existem diversos meios de atacar chaves cifradas, dentre os quais você pode escolher o qual achar melhor. Neste tutorial vamos utilizar o **hashcat**. A ferramenta é bastante poderosa pois permite a computação utilizando CPU e GPU.
+    Além disso, é multiplataforma, vou rodar a ferramenta no Windows pois estou utilizando uma máquina virtual do Kali Linux. Logo, não tenho acesso a GPU. Os comandos serão semelhantes nos 2 sistemas operacionais. Para Windows será *hashcat.exe*. Para Linux basta digitar *hashcat*.  
+
+    Antes de tudo, ainda no linux, vamos converter o arquivo **.cap** para a extensão **.hccapx** que é a extensão utilizada pelo hashcat. Para isso digite:
+
+        /usr/share/hashcat-utils/cap2hccapx.bin handshake-01.cap wpa2.hccapx
+
+    onde:
+
+    - **handshake-01.cap** - é nosso arquivo que contém o handshake.
+    - **wpa2.hccapx** - é o arquivo que será gerado no formato para hashcat
+
+    Temos:
+
+    ![Conversão](converted.png)
+
+    Agora, se você tiver Windows deve copiar este arquivo wpa2.hccapx para a pasta onde tem o executável do hashcat.exe no Windows. Lembrando que você só poderá executar o hashcat se estiver dentro da pasta da aplicação. Para isso, baixe o programa, abra a pasta onde está o executavel, segure pressionado a tecla "Shift" + "clique direito do mouse" e selecione a opção "Abrir terminal PowerShell aqui" (para Windows 10). Meu hashcat está na Área de trabalho como mostra a figura a seguir, junto com o arquivo que geramos no LINUX.
+
+    ![Windows Power Shell](PowerShell.png)
+
+    O Próximo passo é rodar o comando (WINDOWS):
+
+        hashcat.exe -I
+
+    Ou no LINUX:
+
+        hashcat -I
+
+    Serão listados os processadores e GPUs (Placas de video) disponiveis para utilização:
+
+    ![Dispositivos](Devices.png)
+
+    Vou utilizar a GTX 1060 para o cracking, observe que o ID dela é #1
+
+    Para iniciar o cracking vamos rodar o seguinte comando(WINDOWS):
+
+        ./hashcat.exe -d 1 -m 2500 -a 3 ./wpa2.hccapx ?d?d?d?d?d?d?d?d
+
+    Ou no LINUX:
+
+        hashcat -d 1 -m 2500 -a 3 wpa2.hccapx ?d?d?d?d?d?d?d?d
+
+    Onde:
+
+    - **-d 1** - Indica a utilização do dispositivo de ID #1. Como mencionei acima, será a GTX 1060.
+    - **-m 2500** - Indica o tipo de criptografia que vamos quebrar. Nesse caso WPA2-PSK.
+    - **-a 3** - Indica o tipo de ataque. Nesse caso será força bruta.
+    - **wpa2.hccapx** - arquivo alvo.
+    - **?d?d?d?d?d?d?d?d** - Cada "?d" desses indica um digito da senha. Nesse caso vamos atacar uma senha de 8 digitos.
+
+    **OBS:**Existem vários tipos de ataques, como combinacional por exemplo onde você sabe uma parte da senha. Nesse caso utilizamos força bruta pois assumimos não fazer idéia da senha que queremos descobrir. Para outras váriações visite o site do hashcat: hashcat.net  
+
+    O resultado segue:
+
+    ![Final](Cracked.png)
+
+    Como podemos ver, o processo termina quando é mostrado "Cracked" no status. Nesse caso o crack levou apenas 4 segundos como mostrado na parte inferior. Vale ressaltar que o tempo necessário pode ser de segundos até anos, isso vai depender do seu poder computacional e principalmente do tamanho da senha. Uma senha de somente números(que é bastante comum, acredite) leva menos tempo do que uma senha com caracteres alfanumérios e especiais.
+
+    Para exibir a senha encontrada, digite o mesmo comando anterior com **--show** no fim do comando(WINDOWS):
+
+        ./hashcat.exe -d 1 -m 2500 -a 3 ./wpa2.hccapx ?d?d?d?d?d?d?d?d --show
+
+    Ou no LINUX?
+
+        hashcat -d 1 -m 2500 -a 3 wpa2.hccapx ?d?d?d?d?d?d?d?d --show
+
+    Será exibida a senha descoberta:
+
+    ![Senha descoberta](Senha.png)
+
+    Pronto! A senha da rede era **12345678**   
+
+    ###Conclusões
+
+    Como mencionado anteriormente, a complexidade da senha influencia bastante na viabilidade da força bruta. Roteadores TP-LINK por exemplo, vem configurado de fábrica com um PIN de 8 dígitos como o do nosso exemplo, o que torna a senha muito fácil de ser quebrada. O que fica de aprendizado é que devemos utilizar senhas maiores e com caracteres especiais, letras maiusculas, minusculas e números que inviabiliza o processo de cracking.  
+
+    Espero que tenha ajudado!
+
+    Abraços!
+
+    ####Referências:  
+
+    - https://www.kali.org
+    - hashcat.net
