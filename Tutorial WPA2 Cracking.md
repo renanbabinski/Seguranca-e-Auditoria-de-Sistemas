@@ -158,7 +158,7 @@ Vamos lá...
     - **wpa2.hccapx** - arquivo alvo.
     - **?d?d?d?d?d?d?d?d** - Cada "?d" desses indica um digito da senha. Nesse caso vamos atacar uma senha de 8 digitos.
 
-    **OBS:**Existem vários tipos de ataques, como combinacional por exemplo onde você sabe uma parte da senha. Nesse caso utilizamos força bruta pois assumimos não fazer idéia da senha que queremos descobrir. Para outras váriações visite o site do hashcat: hashcat.net  
+    **OBS:**Existem vários tipos de ataques, como combinacional por exemplo onde você sabe uma parte da senha. Nesse caso utilizamos força bruta pois assumimos não fazer idéia da senha que queremos descobrir. Para outras váriações visite o site do hashcat: <https://hashcat.net>  
 
     O resultado segue:
 
@@ -188,7 +188,7 @@ Espero que tenha ajudado!
 
 Abraços!
 
-#### Referências:  
+#### Referências
 
-- https://www.kali.org
-- hashcat.net
+- <https://www.kali.org>
+- <https://hashcat.net>
