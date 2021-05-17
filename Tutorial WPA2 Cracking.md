@@ -20,7 +20,7 @@ Vamos lá...
         ifconfig
     serão listados todos os seus adaptadores de rede:  
 
-    ![Lista de adaptadores](Adaptadores1.png)
+    ![Lista de adaptadores](images/Adaptadores1.png)
 
     Se tudo estiver correto, seu adaptador Wireless deve aparecer como **wlan0** ou **wlan1**.  
 
@@ -36,7 +36,7 @@ Vamos lá...
 
         iwconfig
 
-    ![Modo monitor](Modo_monitor.png)
+    ![Modo monitor](images/Modo_monitor.png)
 
     Agora você precisa habilitar o adaptador novamente:
 
@@ -48,7 +48,7 @@ Vamos lá...
 
     Você terá uma tela semelhante a esta:
 
-    ![Redes Disponiveis](Wireless_networks.png)  
+    ![Redes Disponiveis](images/Wireless_networks.png)  
 
     **OBS:** escondi os endereços da minha rede privada e seus respectivos nomes. A rede que nos interessa é a **Victim_Network**, ela foi gerada por mim somente para esse fim de teste. ESSE TUTORIAL É SOMENTE PARA FINS DIDÁTICOS, NÃO FAÇA ISSO NA REDE DE TERCEIROS.  
 
@@ -69,7 +69,7 @@ Vamos lá...
     Todos esses dados foram obtidos no passo anterior.  
     Tela de monitoramento:
 
-    ![Handshake](Handshake.png)
+    ![Handshake](images/Handshake.png)
 
     Como podemos ver na parte inferior da imagem, temos apenas 1 cliente conectado. Para esse ataque precisamos 1 ou mais clientes conectados. Você poderá encontrar vários. Quanto mais clientes estiverem conectados, maior a chance de alguém se desconectar e você capturar um “handshake”.
     Esse script deve ficar rodando até que um “handshake” seja capturado. Quando isso acontecer uma mensagem será exibida no cabeçalho da tela (verifique a imagem do passo posterior). 
@@ -96,15 +96,15 @@ Vamos lá...
 
     Os pacotes serão encaminhados 1 por vez como mostra a tela abaixo:
 
-    ![Pacotes Desautenticação](Deauth.png)
+    ![Pacotes Desautenticação](images/Deauth.png)
 
     Quando o Handshake for capturado, será exibida uma mensagem na tela de monitoramento: "WPA handshake: MAC DISPOSITIVO". Segue imagem:
 
-    ![Handshake Capturado](Got_it.png)
+    ![Handshake Capturado](images/Got_it.png)
 
     Será gerado um arquivo com extensão **.cap** que conterá o Handshake. Este arquivo será usado para quebrar a chave.  
 
-    ![Arquivo](File.png)  
+    ![Arquivo](images/File.png)  
 
 7. Quebrando a chave com força bruta:
 
@@ -122,11 +122,11 @@ Vamos lá...
 
     Temos:
 
-    ![Conversão](converted.png)
+    ![Conversão](images/converted.png)
 
     Agora, se você tiver Windows deve copiar este arquivo wpa2.hccapx para a pasta onde tem o executável do hashcat.exe no Windows. Lembrando que você só poderá executar o hashcat se estiver dentro da pasta da aplicação. Para isso, baixe o programa, abra a pasta onde está o executavel, segure pressionado a tecla "Shift" + "clique direito do mouse" e selecione a opção "Abrir terminal PowerShell aqui" (para Windows 10). Meu hashcat está na Área de trabalho como mostra a figura a seguir, junto com o arquivo que geramos no LINUX.
 
-    ![Windows Power Shell](PowerShell.png)
+    ![Windows Power Shell](images/PowerShell.png)
 
     O Próximo passo é rodar o comando (WINDOWS):
 
@@ -138,7 +138,7 @@ Vamos lá...
 
     Serão listados os processadores e GPUs (Placas de video) disponiveis para utilização:
 
-    ![Dispositivos](Devices.png)
+    ![Dispositivos](images/Devices.png)
 
     Vou utilizar a GTX 1060 para o cracking, observe que o ID dela é #1
 
@@ -162,7 +162,7 @@ Vamos lá...
 
     O resultado segue:
 
-    ![Final](Cracked.png)
+    ![Final](images/Cracked.png)
 
     Como podemos ver, o processo termina quando é mostrado "Cracked" no status. Nesse caso o crack levou apenas 4 segundos como mostrado na parte inferior. Vale ressaltar que o tempo necessário pode ser de segundos até anos, isso vai depender do seu poder computacional e principalmente do tamanho da senha. Uma senha de somente números(que é bastante comum, acredite) leva menos tempo do que uma senha com caracteres alfanumérios e especiais.
 
@@ -170,25 +170,25 @@ Vamos lá...
 
         ./hashcat.exe -d 1 -m 2500 -a 3 ./wpa2.hccapx ?d?d?d?d?d?d?d?d --show
 
-    Ou no LINUX?
+    Ou no LINUX:
 
         hashcat -d 1 -m 2500 -a 3 wpa2.hccapx ?d?d?d?d?d?d?d?d --show
 
     Será exibida a senha descoberta:
 
-    ![Senha descoberta](Senha.png)
+    ![Senha descoberta](images/Senha.png)
 
     Pronto! A senha da rede era **12345678**   
 
-    ###Conclusões
+### Conclusões
 
-    Como mencionado anteriormente, a complexidade da senha influencia bastante na viabilidade da força bruta. Roteadores TP-LINK por exemplo, vem configurado de fábrica com um PIN de 8 dígitos como o do nosso exemplo, o que torna a senha muito fácil de ser quebrada. O que fica de aprendizado é que devemos utilizar senhas maiores e com caracteres especiais, letras maiusculas, minusculas e números que inviabiliza o processo de cracking.  
+Como mencionado anteriormente, a complexidade da senha influencia bastante na viabilidade da força bruta. Roteadores TP-LINK por exemplo, vem configurado de fábrica com um PIN de 8 dígitos como o do nosso exemplo, o que torna a senha muito fácil de ser quebrada. O que fica de aprendizado é que devemos utilizar senhas maiores e com caracteres especiais, letras maiusculas, minusculas e números que inviabiliza o processo de cracking.  
 
-    Espero que tenha ajudado!
+Espero que tenha ajudado!
 
-    Abraços!
+Abraços!
 
-    ####Referências:  
+#### Referências:  
 
-    - https://www.kali.org
-    - hashcat.net
+- https://www.kali.org
+- hashcat.net
